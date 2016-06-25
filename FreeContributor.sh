@@ -290,7 +290,7 @@ unbound()
 
     while read line; do
       echo "local-zone: \"${line}\" redirect" >> "${OUTPUTFILE}"
-      echo "local-data: \"${line}\" ${TARGET}" >> "${OUTPUTFILE}"
+      echo "local-data: \"${line} A ${TARGET}\"" >> "${OUTPUTFILE}"
     done < $DOMAINS
   fi
 }
