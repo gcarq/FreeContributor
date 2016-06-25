@@ -62,7 +62,7 @@ This fork has the purpose to create a very simple dns-blacklist generator, so it
 
 ```sh
 
-git clone https://github.com/tbds/FreeContributor
+git clone https://github.com/gcarq/FreeContributor
 cd FreeContributor
 
 ```
