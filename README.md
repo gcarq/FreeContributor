@@ -3,11 +3,11 @@ This project is still in **beta**! It currently works well, but some changes may
 <!-- language: lang-none -->
       ______              _____            _        _ _           _             
      |  ____|            / ____|          | |      (_) |         | |            
-     | |__ _ __ ___  ___| |     ___  _ __ | |_ _ __ _| |__  _   _| |_ ___  _ __ 
+     | |__ _ __ ___  ___| |     ___  _ __ | |_ _ __ _| |__  _   _| |_ ___  _ __
      |  __| '__/ _ \/ _ \ |    / _ \| '_ \| __| '__| | '_ \| | | | __/ _ \| '__|
      | |  | | |  __/  __/ |___| (_) | | | | |_| |  | | |_) | |_| | || (_) | |   
      |_|  |_|  \___|\___|\_____\___/|_| |_|\__|_|  |_|_.__/ \__,_|\__\___/|_|   
-                                                                                                                                                        
+
 
 Enjoy a safe and faster web experience
 
@@ -54,7 +54,8 @@ This fork has the purpose to create a very simple dns-blacklist generator, so it
 ## Requirements
 
  - [GNU bash](http://www.gnu.org/software/bash/bash.html)
- - [GNU coreutils(grep, sed)](http://www.gnu.org/software/coreutils)
+ - [GNU coreutils(grep, sed, touch)](http://www.gnu.org/software/coreutils)
+ - [GNU awk](https://www.gnu.org/software/gawk/)
  - [cURL](http://curl.haxx.se/)
 
 
@@ -69,52 +70,43 @@ cd FreeContributor
 
 ```sh
 
-    USAGE: 
+ USAGE:
+    $ ./FreeContributor.sh -f <format> -o <out> [-t target]
+     -f <format>      specify an output format:
+                            none          Extract domains only (default)
+                            hosts         Use hosts format
+                            dnsmasq       dnsmasq as DNS resolver
+                            unbound       unbound as DNS resolver
+                            pdnsd         pdnsd as DNS resolver
+     -o <out>         specify an output file
+     -t <target>      specify the target
+                            127.0.1.1 (default)
+                            ::1
+                            NXDOMAIN
+                            custom (e.g. 192.168.1.20)
+     -h               show this help
 
-      $ ./FreeContributor.sh [-f format]  [-o out] [-t target]
-
-       -f format: specify an output format:
-
-          none        Extract domains only
-          hosts       Use hosts format
-          dnsmasq     dnsmasq as DNS resolver
-          unbound     unbound as DNS resolver
-          pdnsd       pdnsd as DNS resolver
-
-       -o out: specify an output file
-
-       -t target: specify the target
-    
-          default: 0.0.0.0
-                   ::
-                   NXDOMAIN
-                   custom (e.g. 192.168.1.20)
-
-       -help         Show this help
-
-
-    EXAMPLES:
-
-      $ ./FreeContributor.sh -f hosts -t 0.0.0.0 -o blacklist.txt
-
-      $ ./FreeContributor.sh -f dnsmasq -t NXDOMAIN -o blacklist.txt
+  EXAMPLES:
+    $ ./FreeContributor.sh -f hosts -t 0.0.0.0 -o hosts.blacklist
+    $ ./FreeContributor.sh -f dnsmasq -t NXDOMAIN -o dnsmasq.blacklist
+    $ ./FreeContributor.sh -f unbound -t ::1 -o unbound-ipv6.blacklist
 
 ```
 
 ## Contributing
 
-FreeContributor is a community project, hence all contributions are more than welcome! For more information, 
-head to [CONTRIBUTING](https://github.com/tbds/FreeContributor/blob/master/CONTRIBUTING.md)
+FreeContributor is a community project, hence all contributions are more than welcome! For more information,
+head to [CONTRIBUTING](https://github.com/gcarq/FreeContributor/blob/master/CONTRIBUTING.md)
 
 ## Sources
 
-Inspired by [jmdugan's blocklists project](https://github.com/jmdugan/blocklists), FreeContributor project comes with a 
-[catalog of corporation domain names](https://github.com/tbds/FreeContributor/tree/master/data) that people may want to block. 
+Inspired by [jmdugan's blocklists project](https://github.com/jmdugan/blocklists), FreeContributor project comes with a
+[catalog of corporation domain names](https://github.com/tbds/FreeContributor/tree/master/data) that people may want to block.
 
 FreeContributor also downloads external files, each has its own license, detailed in the list below.
 Thanks to the people working hard to maintain the filter lists below that FreeContributor is using.
 
-**You can also contribute with your own lists**, see [CONTRIBUTING](https://github.com/tbds/FreeContributor/blob/master/CONTRIBUTING.md).
+**You can also contribute with your own lists**, see [CONTRIBUTING](https://github.com/gcarq/FreeContributor/blob/master/CONTRIBUTING.md).
 
 
 | URL                                                                              | Details                                                 | License |
@@ -160,9 +152,9 @@ Thanks to the people working hard to maintain the filter lists below that FreeCo
     | PC | <==> | DNS Server | <==> | Other DNS Server | <==> | example.tld = ip adress|
     +----+      +------------+      +------------------+      +------------------------+
 
-    +----+      +-------------------------- + 
+    +----+      +-------------------------- +
     | PC | <==> | ip adress of example.tld  |
-    +----+      +---------------------------+ 
+    +----+      +---------------------------+
 
 
 ### With a local DNS resolver
@@ -172,10 +164,10 @@ Thanks to the people working hard to maintain the filter lists below that FreeCo
     | PC |      | DNS Server     | <==> | Other DNS Server | <==> | goodwebsite.tld  |
     +----+      +----------------+      +------------------+      +------------------+
       ^^             ^^                                  +------------+    ||
-      ||             ||                                  | DNS cache  |  <= / 
+      ||             ||                                  | DNS cache  |  <= /
       vv             ||                                  +------------+
     +--------------------+      +----------------------------------------------------+
-    | local DNS resolver | <==> | ads.example.tld = 127.0.0.1 or 0.0.0.0 or NXDOMAIN | 
+    | local DNS resolver | <==> | ads.example.tld = 127.0.0.1 or 0.0.0.0 or NXDOMAIN |
     +--------------------+      +----------------------------------------------------+
 
     future requests of goodwebsite.tld
@@ -188,7 +180,7 @@ Thanks to the people working hard to maintain the filter lists below that FreeCo
 
 ## Hosts vs DNS resolver
 
-The hosts blocking method can not use wildcards (*) and and therefore someone must keep track 
+The hosts blocking method can not use wildcards (*) and and therefore someone must keep track
 of each subdomain that should be blocked. Some DNS caching servers can block the domain and
 subdomains with just one rule. For example `/etc/hosts`
 
@@ -204,7 +196,7 @@ such as Dnsmasq, for example `/etc/dnsmasq.conf`
     server=/example.tld/
 
 
-Will redirect example.tld and all subdomains to 127.0.0.1 or 0.0.0.0. Better yet, it can 
+Will redirect example.tld and all subdomains to 127.0.0.1 or 0.0.0.0. Better yet, it can
 return NXDOMAIN.
 
 
