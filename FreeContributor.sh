@@ -35,7 +35,7 @@ TARGET="${TARGET:=$REDIRECTIP4}"
 FORMAT="${FORMAT:=none}"
 
 # Maximum threads (used for fetching and converting)
-THREADS=4
+THREADS=2
 
 # Make temp files
 TMP_DOMAINS_RAW=$(mktemp /tmp/freecontribute-raw-domains.XXXXX)
@@ -91,10 +91,11 @@ sanitize_merged_domainlist() {
 {3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 
   ## Replacments are done in the following order:
+  #   > transform everything to lowercase
   #   > strip comments starting with '#'
   #   > replace substr '127.0.0.1' with ''
   #   > replace substr '0.0.0.0' with ''
-  #   > strip all ^M characters (windows line ending character)
+  #   > strip ^M (windows newline character)
   #   > ltrim tabs and whitespaces
   #   > rtrim tabs and whitespaces
   #   > remove lines which only contain an ipv4 addresses
@@ -102,10 +103,11 @@ sanitize_merged_domainlist() {
   #   > delete empty lines
 
   # Apply replacements
-  sed -ir "s/#.*$//;                     \
+  sed -ir "s/\(.*\)/\L\1/;               \
+           s/#.*$//;                     \
            s/127.0.0.1//;                \
            s/0.0.0.0//;                  \
-           s/\^M//g;                     \
+           s/\^M//;                      \
            s/^[[:space:]]*//;            \
            s/[[:space:]]*$//;            \
            s/${REGEX_IPV4_VALIDATION}//; \
