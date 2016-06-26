@@ -1,25 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # FreeContributor: Enjoy a safe and faster web experience
 # (c) 2016 by TBDS
+# (c) 2016 by gcarq
 # https://github.com/tbds/FreeContributor
+# https://github.com/gcarq/FreeContributor (forked)
 #
 # FreeContributor is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
-cat > hosts.header <<EOF
+cat <<EOF
 #
 # /etc/hosts
 #
-# Last updated : $(date +"%m-%d-%Y")
+# Last updated: $(date +"%m-%d-%Y")
 #
 # This hosts file is a merged collection of hosts from reputable sources
 # using FreeContributor
 # (c) 2016 by TBDS
 # https://github.com/tbds/FreeContributor
-# 
+#
 # All Credits:
 # Peter Lowe - pgl [at] yoyo.org - https://pgl.yoyo.org/
 # AdAway: Kicelo, Dominik Schuermann - https://free-software-for-android.github.io/AdAway/
