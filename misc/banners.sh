@@ -58,3 +58,4 @@ cat <<EOF
 
 EOF
 }
+export -f show_usage

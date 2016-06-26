@@ -21,7 +21,7 @@
 #  * cURL
 #
 set -e
-source ./misc/banners.sh
+source "${BASH_SOURCE%/*}/misc/banners.sh"
 
 ## Global Variables-------------------------------------------------------------------
 FREECONTRIBUTOR_VERSION='0.6.0'
@@ -47,7 +47,6 @@ DOMAINLIST_URIS=()
 ##------------------------------------------------------------------------------------
 
 panic() {
-  source ./misc/banners.sh
   show_usage
   printf "    ERROR: %s\n\n" "${1}" 1>&2
   exit 1
@@ -69,7 +68,7 @@ load_domainlist_conf() {
     panic "Unable to load domainlist config: \"${DOMAINLIST_CONF}\""
   fi
 
-  # Load sanitze and load URIs
+  # Load and sanitze and load URIs
   DOMAINLIST_URIS=($(sed -r "s/#.*$//;           \
                              s/^[[:space:]]*//;  \
                              /^[[:space:]]*$/d;  \
