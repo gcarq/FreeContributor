@@ -21,13 +21,12 @@
 #  * cURL
 #
 set -e
-source "${BASH_SOURCE%/*}/misc/banners.sh"
-
 ## Global Variables-------------------------------------------------------------------
 FREECONTRIBUTOR_VERSION='0.6.0'
+WORKING_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 SUPPORTED_FORMATS=("none" "hosts" "dnsmasq" "unbound" "pdnsd")
 DEPENDENCIES=("sed" "grep" "curl")
-DOMAINLIST_CONF="domainlist.conf"
+DOMAINLIST_CONF="${WORKING_DIR}/domainlist.conf"
 
 # Set default values
 REDIRECTIP4="${REDIRECTIP4:=127.0.1.1}"
@@ -198,6 +197,9 @@ parse_arguments() {
 }
 
 ## Main ------------------------------------------------------------------------
+
+# Include banners file
+source "${WORKING_DIR}/misc/banners.sh"
 
 show_header
 parse_arguments "$@"
