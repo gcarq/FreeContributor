@@ -9,7 +9,8 @@ This project is still in **beta**! It currently works well, but some changes may
      |_|  |_|  \___|\___|\_____\___/|_| |_|\__|_|  |_|_.__/ \__,_|\__\___/|_|   
 
 
-Enjoy a safe and faster web experience
+Generate domain lists for various DNS servers and enjoy a safe and faster web experience.
+The domain lists can be used to create DNS sinkholes, block corporations or for general purpos DNS redirections.
 
 TL:DR `cat domains-{ads,tracking,malware} > /dev/null`
 
@@ -29,17 +30,13 @@ It [blocks ads, malware, trackers at DNS level](https://en.wikipedia.org/wiki/DN
 
 ## Why this fork?
 
-This fork has the purpose to create a very simple dns-blacklist generator, so it just downloads all domain lists, merges them and generates a file in the specified format (`/etc/hosts`, `dnsmasq`, `unbound` and `pdnsd`), nothing more.
+This fork has the single purpose to download, merge and generate a domain list in the specified format (`/etc/hosts`, `dnsmasq`, `unbound` and `pdnsd`), nothing more.
 
 ##### Differences between the original:
  - doesn't need any privileges besides writing access to the output file
  - doesn't install any package on the OS
  - doesn't modifies any system files
  - doesn't trigger the init-system to restart the dns server
-
-## What the script does?
-
- - Download domain lists from various sources and generate a blacklist in data formats for `/etc/hosts`, `dnsmasq`, `unbound` and `pdnsd`.
 
 ## Benefits and Features
 
@@ -106,7 +103,7 @@ Inspired by [jmdugan's blocklists project](https://github.com/jmdugan/blocklists
 FreeContributor also downloads external files, each has its own license, detailed in the list below.
 Thanks to the people working hard to maintain the filter lists below that FreeContributor is using.
 
-**You can also contribute with your own lists**, see [CONTRIBUTING](https://github.com/gcarq/FreeContributor/blob/master/CONTRIBUTING.md).
+**You can add or remove lists in the config file `domainlists.conf`**.
 
 
 | URL                                                                              | Details                                                 | License |
@@ -206,7 +203,7 @@ return NXDOMAIN.
 | Program                                                         | Language      | Adblocking Method                              |
 | :-------------                                                  | :-------------| :--------------------------------------------  |
 | [FreeContributor (original)](https://github.com/tbds/FreeContributor)      | Bash          | DNS resolver (Dnsmasq, Unbound or Pdnsd)       |
-| [FreeContributor (fork)](https://github.com/gcarq/FreeContributor)     | Bash          | Generates only blacklists (Hosts, Dnsmasq, Unbound or Pdnsd) |
+| [FreeContributor (fork)](https://github.com/gcarq/FreeContributor)     | Bash          | No DNS resolver, only generates domain lists for Hosts, Dnsmasq, Unbound or Pdnsd |
 | [Pi-Hole](https://pi-hole.net/)                                 | Bash, Php     | Dnsmasq                                        |
 | [NoTrack](https://github.com/quidsup/notrack)                   | Bash, Php     | Dnsmasq                                        |
 | [Hostsblock](https://gaenserich.github.io/hostsblock/)          | Bash          | Hosts with Dnsmasq (for cache only)            |
