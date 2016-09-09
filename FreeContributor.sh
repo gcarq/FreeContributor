@@ -81,7 +81,7 @@ fetch_domainlists() {
   printf "    Fetching lists (threads: %d)...\n" ${THREADS}
 
   printf '%s\n' ${DOMAINLIST_URIS[@]} | xargs -n1 -I{} -P ${THREADS} \
-    bash -c "if ! curl -L '{}' 2>/dev/null >>'${TMP_DOMAINS_RAW}'; then panic 'Unable to fetch domain list: {}'; fi"
+    bash -c "if ! curl -L '{}' 2>/dev/null >>'${TMP_DOMAINS_RAW}'; then printf 'Unable to fetch domain list: {}\n'; fi"
 
   printf "    Got $(wc -l < ${TMP_DOMAINS_RAW}) dns records.\n"
 }
